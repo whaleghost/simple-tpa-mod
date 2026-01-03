@@ -17,8 +17,17 @@ tasks.named('wrapper', Wrapper).configure {
 version = mod_version
 group = mod_group_id
 
+repositories.clear()
 repositories {
-    // Add here additional repositories if required by some of the dependencies below.
+    maven {
+        url = "https://libraries.minecraft.net/"
+    }
+    maven {
+        url = "https://neoforged.forgecdn.net/releases"
+    }
+    maven {
+        url = "https://neoforged.forgecdn.net/mojang-meta"
+    }
 }
 
 base {

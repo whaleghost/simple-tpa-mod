@@ -1,4 +1,4 @@
-package com.example.examplemod;
+package com.whaleghost.simpletpamod;
 
 import java.util.List;
 import java.util.Set;
