@@ -42,11 +42,11 @@ displayName="${mod_name}" #mandatory
 #credits="" #optional
 
 # The authors of the mod, displayed in the mod UI (optional)
-#authors=""
+authors="whaleghost"
 
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-Example mod description.
+A simple mod for command "/tpa" use.
 '''
 
 # The [[mixins]] block allows you to declare your mixin config to FML so that it gets loaded.
