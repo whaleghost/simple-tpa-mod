@@ -14,10 +14,6 @@ public class TpaRequest {
         this.timestamp = timestamp;
     }
 
-    public long getTimestamp() {
-        return timestamp;
-    }
-
     public UUID getTarget() {
         return target;
     }
