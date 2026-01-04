@@ -1,5 +1,6 @@
 package com.whaleghost.simpletpamod;
 
+import com.whaleghost.simpletpamod.TpaCommands.TpaOptionCommand;
 import com.whaleghost.simpletpamod.TpaCommands.TpaRequestCommand;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import org.slf4j.Logger;
@@ -119,6 +120,7 @@ public class SimpleTpaMod {
     @SubscribeEvent
     public void onCommandRegister(RegisterCommandsEvent event) {
         TpaRequestCommand.register(event.getDispatcher());
+        TpaOptionCommand.register(event.getDispatcher());
         LOGGER.info("Tpa command loaded.");
     }
 }

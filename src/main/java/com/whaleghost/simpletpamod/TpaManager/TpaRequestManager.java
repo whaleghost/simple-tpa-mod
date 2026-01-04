@@ -15,7 +15,7 @@ public class TpaRequestManager {
 
     private static final String PLAYER_NOT_FOUND   = "The specified player does not exist.";
     private static final String REQUEST_TIMEOUT    = "Request has been expired.";
-    private static final String REQUEST_NOT_FOUND  = "You haven't got a suspended request.";
+    private static final String REQUEST_NOT_FOUND  = "You haven't got a pending request.";
 
     public static void distributeTpaRequest(ServerPlayer sender, ServerPlayer receiver) {
         if (receiver == null) {
@@ -56,16 +56,34 @@ public class TpaRequestManager {
         }
     }
 
-    public static void executeTpaTeleport(ServerPlayer sender, ServerPlayer target) {
-        if (sender == null) {
+    public static void acceptRequest(ServerPlayer judger) {
+        TpaRequest request = fetchRequest(judger);
+        if (request == null) {
+            judger.sendSystemMessage(Component.literal(REQUEST_NOT_FOUND));
             return;
         }
+        if (request.isExpired(REQUEST_EXPIRATION_TIME)) {
+            judger.sendSystemMessage(Component.literal(REQUEST_TIMEOUT));
+            return;
+        }
+        ServerPlayer from = judger.getServer().getPlayerList().getPlayer(request.getFrom());
+        ServerPlayer target = judger.getServer().getPlayerList().getPlayer(request.getTarget());
+        if (target == null) {
+            return;
+        }
+        executeTeleport(from, target);
+    }
 
-        teleportPlayerTo(sender, target);
+    public static void denyRequest(ServerPlayer judger) {
+        fetchRequest(judger);
+    }
+
+    public static void executeTeleport(ServerPlayer from, ServerPlayer target) {
+        teleportPlayerTo(from, target);
 
         String senderMsg = String.format("You have been teleported to %s.", target.getGameProfile().getName());
-        String receiverMsg = String.format("%s has been teleported to you.", sender.getGameProfile().getName());
-        sender.sendSystemMessage(Component.literal(senderMsg));
+        String receiverMsg = String.format("%s has been teleported to you.", from.getGameProfile().getName());
+        from.sendSystemMessage(Component.literal(senderMsg));
         target.sendSystemMessage(Component.literal(receiverMsg));
     }
 
@@ -80,6 +98,10 @@ public class TpaRequestManager {
         float pitch = target.getXRot();
 
         player.teleportTo(targetLevel, x, y, z, yaw, pitch);
+    }
+
+    public static TpaRequest fetchRequest(ServerPlayer judger) {
+        return pendingRequests.remove(judger.getUUID());
     }
 
 }
