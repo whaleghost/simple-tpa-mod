@@ -1,5 +1,7 @@
 package com.whaleghost.simpletpamod;
 
+import com.whaleghost.simpletpamod.TpaCommands.TpaRequestCommand;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -112,5 +114,11 @@ public class SimpleTpaMod {
     public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
+    }
+
+    @SubscribeEvent
+    public void onCommandRegister(RegisterCommandsEvent event) {
+        TpaRequestCommand.register(event.getDispatcher());
+        LOGGER.info("Tpa command loaded.");
     }
 }
