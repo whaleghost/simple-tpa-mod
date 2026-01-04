@@ -4,9 +4,11 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.whaleghost.simpletpamod.TpaManager.TpaRequestManager;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 
@@ -16,7 +18,7 @@ public class TpaRequestCommand {
         dispatcher.register(
             Commands.literal("tpa")
                     .then(
-                        Commands.argument("player", StringArgumentType.string())
+                        Commands.argument("player", EntityArgument.player())
                                 .executes(TpaRequestCommand::sendTpaRequest)
                     )
                     .executes(context -> Command.SINGLE_SUCCESS)
@@ -24,33 +26,29 @@ public class TpaRequestCommand {
         dispatcher.register(
             Commands.literal("tpahere")
                     .then(
-                        Commands.argument("player", StringArgumentType.string())
+                        Commands.argument("player", EntityArgument.player())
                                 .executes(TpaRequestCommand::sendTpaHereRequest)
                     )
                     .executes(context -> Command.SINGLE_SUCCESS)
         );
     }
 
-    private static int sendTpaRequest(CommandContext<CommandSourceStack> context) {
+    private static int sendTpaRequest(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         CommandSourceStack source = context.getSource();
-        MinecraftServer server = source.getServer();
 
         ServerPlayer sender = source.getPlayer();
-        String receiverName = StringArgumentType.getString(context, "player");
-        ServerPlayer receiver = server.getPlayerList().getPlayerByName(receiverName);
+        ServerPlayer receiver = EntityArgument.getPlayer(context, "player");
 
         TpaRequestManager.distributeTpaRequest(sender, receiver);
 
         return Command.SINGLE_SUCCESS;
     }
 
-    private static int sendTpaHereRequest(CommandContext<CommandSourceStack> context) {
+    private static int sendTpaHereRequest(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         CommandSourceStack source = context.getSource();
-        MinecraftServer server = source.getServer();
 
         ServerPlayer sender = source.getPlayer();
-        String receiverName = StringArgumentType.getString(context, "player");
-        ServerPlayer receiver = server.getPlayerList().getPlayerByName(receiverName);
+        ServerPlayer receiver = EntityArgument.getPlayer(context, "player");
 
         TpaRequestManager.distributeTpaHereRequest(sender, receiver);
 
