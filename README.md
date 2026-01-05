@@ -1,25 +1,24 @@
+# Introduction
 
-Installation information
-=======
+This mod allows you to teleport to your friends and vice versa with cheat mode disabled, while preserving the teleport functionality.
 
-This template repository can be directly cloned to get you started with a new
-mod. Simply create a new repository cloned from this one, by following the
-instructions provided by [GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
+We introduce four commands to implement the teleport function:
 
-Once you have your clone, simply open the repository in the IDE of your choice. The usual recommendation for an IDE is either IntelliJ IDEA or Eclipse.
+- /tpa \<player\>: Sends a request to \<player\> to teleport to their location
+- /tpahere \<player\>: Sends a request to \<player\> to teleport them to your location
+- /tpaccept: Accepts the teleport request.
+- /tpdeny: Denies the teleport request.
 
-If at any point you are missing libraries in your IDE, or you've run into problems you can
-run `gradlew --refresh-dependencies` to refresh the local cache. `gradlew clean` to reset everything 
-{this does not affect your code} and then start the process again.
+Each player can only have one pending request at a time. New requests will replace existing ones. Each request expires after one minute.
 
-Mapping Names:
-============
-By default, the MDK is configured to use the official mapping names from Mojang for methods and fields 
-in the Minecraft codebase. These names are covered by a specific license. All modders should be aware of this
-license. For the latest license text, refer to the mapping file itself, or the reference copy here:
-https://github.com/NeoForged/NeoForm/blob/main/Mojang.md
+# Requirements
 
-Additional Resources: 
-==========
-Community Documentation: https://docs.neoforged.net/  
-NeoForged Discord: https://discord.neoforged.net/
+- Minecraft: 1.21.1
+- Mod loader: NeoForge (any versions)
+
+# Installation information
+
+
+This repository is based on MDK-1.21.1-ModDevGradle and can be directly cloned to your device.
+After cloning, simply open the repository in your preferred IDE. We recommend using either IntelliJ IDEA or Eclipse.
+If you encounter missing libraries in your IDE or other issues, you can run `gradlew --refresh-dependencies` to refresh the local cache, or `gradlew clean` to reset everything (this does not affect your code) and restart the build process.
