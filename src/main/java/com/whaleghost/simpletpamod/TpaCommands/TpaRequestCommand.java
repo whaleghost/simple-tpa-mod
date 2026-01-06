@@ -2,14 +2,12 @@ package com.whaleghost.simpletpamod.TpaCommands;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.whaleghost.simpletpamod.TpaManager.TpaRequestManager;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 
 public class TpaRequestCommand {
@@ -21,7 +19,6 @@ public class TpaRequestCommand {
                         Commands.argument("player", EntityArgument.player())
                                 .executes(TpaRequestCommand::sendTpaRequest)
                     )
-                    .executes(context -> Command.SINGLE_SUCCESS)
         );
         dispatcher.register(
             Commands.literal("tpahere")
@@ -29,7 +26,6 @@ public class TpaRequestCommand {
                         Commands.argument("player", EntityArgument.player())
                                 .executes(TpaRequestCommand::sendTpaHereRequest)
                     )
-                    .executes(context -> Command.SINGLE_SUCCESS)
         );
     }
 
